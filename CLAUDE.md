@@ -2,7 +2,8 @@
 
 This repo holds the Feeloy shorts **"No Goats Required"** (Alexander Selkirk, the real Robinson Crusoe, 1704-1709) and
 **"Three Days Late"** (Michel Siffre, two months alone in a cave without clocks, 1962) and **"Lonely for Hire"** (Georgian
-ornamental hermits, Painshill + Hawkstone), all ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
+ornamental hermits, Painshill + Hawkstone) and **"Dash Comes First"** (Queen Victoria's spaniel, coronation day 1838), all
+ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
 session): **push only to `PineappleForest/apple`**; read `eliza` for reference code, never push to it.
 
 ## What exists
@@ -11,6 +12,7 @@ session): **push only to `PineappleForest/apple`**; read `eliza` for reference c
 | `SelkirkShort` | Selkirk marooned 4 y 4 m; cats vs rats, dancing with goats, forgot how to talk: 59.5 s | `src/videos/selkirk/` | `production-selkirk/` | `out/selkirk_final.mp4` |
 | `SiffreShort` | Siffre in an ice cave, no clocks: thought it was Aug 20 on Sep 14; welcomed 2000 three days late: 65 s | `src/videos/siffre/` | `production-siffre/` | `out/siffre_final.mp4` |
 | `HermitShort` | Hired hermits: Painshill's quit for the pub after 3 weeks; Hawkstone's got a pub + a dummy; today, gnomes: 60.7 s | `src/videos/hermit/` | `production-hermit/` | `out/hermit_final.mp4` |
+| `DashShort` | Victoria's lonely childhood + Dash; crowned in 1838, then ran home to bath him; his gravestone: 64 s | `src/videos/dash/` | `production-dash/` | `out/dash_final.mp4` |
 
 1080x1920 at 30 fps, registered in `src/Root.tsx`; the final render is 1440x2560 (`--scale 1.3333`).
 Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` (Remotion 4.0.290, three.js 0.169, flat
@@ -46,6 +48,15 @@ Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` 
   the pub building), the `pub` room. `toon.ts`: `fxAdvert`, `fxThing`, `fxMoneyBag`, `fxDummy`, `fxGnome`, `fxPubSign`, `fxBell`.
 - Take: 58.6 s as delivered; captions merge "1700s" and "£700" (Montserrat latin has £).
 
+## The Dash set (src/videos/dash/, copied from hermit)
+- `story.ts`: rooms `kens` (Kensington: green panelling, window, rug, Dash's `CUSHION`), `buck` (Buckingham: cream hall,
+  stairs at x < -2, the tin bath `TUB`), `abbey` (Westminster Abbey: pillars, coloured windows, red carpet, the `THRONE` on a
+  dais), `homeN`. Outdoors: a lawn (z <= 0) ending at a sea wall + sand, the sea toward +z; the yacht is the shared ship
+  scaled to 0.45 (`shipAt` returns `scale`); Dash's grave `GRAVE` on the lawn. `runQ(f)` = the queen's run, `swimZ(f)` = Dash.
+- `toon.ts`: hats `"crown"`, `"tiara"`, `"mitre"`; `fxSpaniel` (sit/run/swim/beg/statue, scarlet jacket), `fxDashPortrait`,
+  `fxGifts`, `fxBathtub`, `fxRingStuck`, `fxBook` (two pages at once), `fxGrave`. Victoria is a generic cartoon queen.
+- Take: 62.0 s as delivered; captions merge "1838". Mix limiter ceiling -2.7 dB (true peak came out -0.8 at -1.9).
+
 ## Voice, captions, sound (production-selkirk/)
 - Take: ElevenLabs "Mark" s50 (fast) ran 55.2 s; four beat pauses were inserted (after the hook +0.45 s, after "He was also
   alone" +0.6, before the Jenny turn +0.75, after "silence" +0.45) -> `voice/voice.wav` 57.4 s.
@@ -63,6 +74,7 @@ git clone https://github.com/PineappleForest/apple && cd apple     # first time;
 ./render.sh remux                                    # new mix.wav only, no re-render
 COMP=SiffreShort ./render.sh preview                 # the Siffre short (same modes)
 COMP=HermitShort ./render.sh preview                 # the Hermit short (same modes)
+COMP=DashShort ./render.sh preview                   # the Dash short (same modes)
 ```
 Still checks in the workspace: `REMOTION_TMP=/home/claude/rtmp COMP=SelkirkShort PROPS='{"post":{"dpr":0.5}}' node scripts/stills.mjs out/x_ 60,400 0.5`
 
