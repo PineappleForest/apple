@@ -43,6 +43,9 @@ git clone https://github.com/PineappleForest/apple && cd apple     # first time;
 Still checks in the workspace: `REMOTION_TMP=/home/claude/rtmp COMP=SelkirkShort PROPS='{"post":{"dpr":0.5}}' node scripts/stills.mjs out/x_ 60,400 0.5`
 
 ## Pitfalls hit on this short
+- The first hook (a low backlit golden sun in frame: HDR sun disc + additive halo over the grazing sea) flickered half the
+  frame white on the pod GPU. The sun disc/halo are now off for the whole film (`showSun = false` in world.ts), the hook
+  is a daylight glide in from the sea, and the 4-frame white flash after the hook is gone (crossfade to the deck).
 - Small ground animals 6-7 m from a 1.5 m-high lens land on the caption line (y ~67 %): put them at or behind the main
   character's depth, or lower the lens.
 - A push-in (`pushK`) dollies toward the LOOK point: aiming at the horizon makes a "slow push" travel metres. Aim at a

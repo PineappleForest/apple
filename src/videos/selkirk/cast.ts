@@ -294,8 +294,8 @@ const sleepers = (() => { // ~70 cat spots in a ring around a sleeper (unit offs
 const shot1 = (cam: CamInfo, t: number, out: Stage) => {
   const f = F(t);
   if (f < 124) {
-    put(cam, t, out, { o: CASTAWAY, i: 1, at: G(0.1, 0, -10.6), expr: f >= 88 ? "sad" : "neutral", headTilt: f >= 88 ? -5 : 0, swaps: [88 / FPS] });
-    badge(out, "1704", "#3f6fb5", pop(f, 8), G(0.1, 2.55, -10.5), 0.8);
+    put(cam, t, out, { o: CASTAWAY, i: 1, at: G(0.0, 0, -10.6), expr: f >= 88 ? "sad" : "neutral", headTilt: f >= 88 ? -5 : 0, swaps: [88 / FPS] });
+    badge(out, "1704", "#3f6fb5", pop(f, 62), G(0.0, 2.55, -10.5), 0.8);
     return;
   }
   const ph = (t * 1.6) % 1;

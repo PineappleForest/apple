@@ -41,7 +41,7 @@ const haloTex = () => ctex("sunHalo", 256, 256, (g) => {
  *  are lit; golden shots keep the backlit preset; night = moonlight from behind the lens */
 const OUT = { az: 140, el: 42 };
 const NIGHT = { az: 140, el: 30 };
-const SUN_SHOT: Record<number, { az?: number; el?: number }> = { 2: OUT, 3: OUT, 4: OUT, 5: NIGHT, 6: OUT, 7: NIGHT, 9: OUT, 10: { az: 120, el: 36 },
+const SUN_SHOT: Record<number, { az?: number; el?: number }> = { 1: OUT, 2: OUT, 3: OUT, 4: OUT, 5: NIGHT, 6: OUT, 7: NIGHT, 9: OUT, 10: { az: 120, el: 36 },
   11: OUT, 12: OUT, 13: NIGHT, 14: NIGHT };
 
 export class World {
@@ -193,7 +193,7 @@ export class World {
     this.sky.position.copy(cam.position);
     untone(L.fog, this.fog.color); this.fog.near = L.fogNear; this.fog.far = L.fogFar;
     scene.fog = this.fog; scene.background = null;
-    const showSun = s.light === "golden";
+    const showSun = false; // no visible sun disc/halo anywhere: the low backlit sunset sun flickered white on the pod GPU (old hook)
     this.sunDisc.visible = this.sunHalo.visible = showSun;
     if (showSun) {
       this.sunDisc.position.copy(cam.position).addScaledVector(sunDir, 900);

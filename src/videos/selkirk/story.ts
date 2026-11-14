@@ -47,7 +47,7 @@ export const shipAt = (id: number, f: number): ShipPose | null => {
 export type Light = "day" | "golden" | "night";
 export type ShotDef = { id: number; a: number; b: number; light: Light; sunAz?: number; sunEl?: number };
 export const SHOTS: ShotDef[] = [
-  { id: 1, a: 0, b: 196, light: "golden" },    // hook: 1704, a sailor alone; ... dancing with cats
+  { id: 1, a: 0, b: 196, light: "day" },       // hook (daylight): the island from the sea, glide in to the sailor alone; ... dancing with cats
   { id: 2, a: 196, b: 313, light: "day" },     // on deck: Selkirk tells the captain the ship will sink
   { id: 3, a: 313, b: 381, light: "day" },     // the captain: "then stay here"
   { id: 4, a: 381, b: 510, light: "day" },     // the beach: he was right, the ship sinks, he is alone
@@ -62,8 +62,8 @@ export const SHOTS: ShotDef[] = [
   { id: 13, a: 1336, b: 1475, light: "night" },// cats keep away the rats, not the silence
   { id: 14, a: 1475, b: TOTAL, light: "night" },// a quiet flat today; Jenny; a goat; end card
 ];
-export const XFADE: Record<number, number> = { 4: 8, 5: 8, 6: 8, 7: 8, 8: 10, 13: 10, 14: 12 };
-export const FLASH_AT = 196;
+export const XFADE: Record<number, number> = { 2: 8, 4: 8, 5: 8, 6: 8, 7: 8, 8: 10, 13: 10, 14: 12 };
+export const FLASH_AT = -1000; // no white flash (the hook crossfades to the deck instead)
 export const CARD_AT = 1664;
 
 export const shotAt = (f: number) => SHOTS.find((s) => f >= s.a && f < s.b) ?? SHOTS[SHOTS.length - 1];
@@ -104,8 +104,10 @@ const pushK = (f: number, f0: number, rate: number, punch = 0, n = 35) => {
 const dolly = (pos: V3, look: V3, k: number, rest: Partial<Cam> = {}): Shot =>
   ({ pos: [look[0] + (pos[0] - look[0]) * k, look[1] + (pos[1] - look[1]) * k, look[2] + (pos[2] - look[2]) * k], look, ...rest });
 
-// 1: the hook. a) alone on the shore at sunset, looking out to sea behind him; b) dancing with the cats by the fire
-const S1a = (f: number) => dolly(G(-0.5, 1.5, -16.6), G(0.1, 1.25, -10.6), pushK(f, 0, 0.0016, 0.004, 30), { fov: 42, roll: 0.02 });
+// 1: the hook, in daylight with the sun over the lens' shoulder (no sun in frame). a) wide on the island from the sea,
+//    gliding in over the shallows to the sailor alone on the beach; b) dancing with the cats by the fire
+const S1w = (f: number): Shot => ({ pos: [2.5, WY + 4.0, 34 - 0.05 * f], look: G(0, 2.2, -14), fov: 40, roll: 0 });
+const S1a = (f: number) => dolly(G(0.4, 1.5, -4.6), G(0.0, 1.2, -10.6), pushK(f, 70, 0.0016), { fov: 42, roll: 0.02 });
 const S1b = (f: number) => dolly(G(2.0, 1.75, -9.0), G(2.05, 1.0, -15.6), pushK(f, 124, 0.0022, 0.007, 30), { fov: 44, roll: -0.03 });
 // 2-3: on deck, along the ship's length; then the captain against the island
 const S2a = (f: number) => dolly(S(7.0, 1.55, 0.25), S(0.2, 1.15, 0.05), pushK(f, 192, 0.0016, 0.005, 30), { fov: 42 });
@@ -138,7 +140,7 @@ const S14b = (f: number) => dolly(R("homeN", -0.38, 1.1, -0.45), R("homeN", -0.4
 const S14c = (f: number) => dolly(R("homeN", 0.7, 1.35, 2.0), R("homeN", -0.1, 0.85, -1.7), pushK(f, 1626, 0.002, 0.006, 30), { fov: 44, roll: -0.02 });
 
 const CAMS: Record<number, Key[]> = {
-  1: [{ f: 0, s: S1a }, { f: 124, cut: true, s: S1b }], 2: [{ f: 192, s: S2a }], 3: [{ f: 309, s: S3a }], 4: [{ f: 377, s: S4a }],
+  1: [{ f: 0, s: S1w }, { f: 8, dur: 72, s: S1a }, { f: 124, cut: true, s: S1b }], 2: [{ f: 192, s: S2a }], 3: [{ f: 309, s: S3a }], 4: [{ f: 377, s: S4a }],
   5: [{ f: 506, s: S5a }], 6: [{ f: 602, s: S6a }], 7: [{ f: 730, s: S7a }], 8: [{ f: 802, s: S8a }], 9: [{ f: 964, s: S9a }],
   10: [{ f: 1026, s: S10a }], 11: [{ f: 1080, s: S11a }], 12: [{ f: 1163, s: S12a }], 13: [{ f: 1332, s: S13a }],
   14: [{ f: 1471, s: S14a }, { f: 1534, cut: true, s: S14b }, { f: 1626, cut: true, s: S14c }],
@@ -167,7 +169,7 @@ export const camAt = (id: number, f: number): Cam => {
 // ---------------- lens: depth of field ----------------
 export type Dof = { f: number; dur?: number; cInf: number; focus?: (f: number) => V3 };
 export const DOF: Dof[] = [
-  { f: 0, cInf: 10 }, { f: 124, cInf: 9 }, { f: 196, cInf: 9 }, { f: 313, cInf: 13 }, { f: 381, cInf: 6 }, { f: 510, cInf: 14 },
+  { f: 0, cInf: 0 }, { f: 50, dur: 20, cInf: 10 }, { f: 124, cInf: 9 }, { f: 196, cInf: 9 }, { f: 313, cInf: 13 }, { f: 381, cInf: 6 }, { f: 510, cInf: 14 },
   { f: 606, cInf: 10 }, { f: 734, cInf: 0 }, { f: 806, cInf: 8 }, { f: 968, cInf: 15 }, { f: 1030, cInf: 0 }, { f: 1084, cInf: 6 },
   { f: 1167, cInf: 8 }, { f: 1336, cInf: 10 }, { f: 1405, dur: 60, cInf: 3 }, { f: 1475, cInf: 9 }, { f: 1534, cInf: 16 }, { f: 1626, cInf: 9 },
 ];
