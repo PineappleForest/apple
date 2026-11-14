@@ -1,13 +1,14 @@
 # Feeloy shorts (apple repo): guide for a new session
 
-This repo holds the Feeloy short **"No Goats Required"**: Alexander Selkirk, the real Robinson Crusoe (1704-1709), ends on
-Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
+This repo holds the Feeloy shorts **"No Goats Required"** (Alexander Selkirk, the real Robinson Crusoe, 1704-1709) and
+**"Three Days Late"** (Michel Siffre, two months alone in a cave without clocks, 1962), both ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
 session): **push only to `PineappleForest/apple`**; read `eliza` for reference code, never push to it.
 
 ## What exists
 | Composition | Story | Code | Production files | Output |
 |---|---|---|---|---|
 | `SelkirkShort` | Selkirk marooned 4 y 4 m; cats vs rats, dancing with goats, forgot how to talk: 59.5 s | `src/videos/selkirk/` | `production-selkirk/` | `out/selkirk_final.mp4` |
+| `SiffreShort` | Siffre in an ice cave, no clocks: thought it was Aug 20 on Sep 14; welcomed 2000 three days late: 65 s | `src/videos/siffre/` | `production-siffre/` | `out/siffre_final.mp4` |
 
 1080x1920 at 30 fps, registered in `src/Root.tsx`; the final render is 1440x2560 (`--scale 1.3333`).
 Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` (Remotion 4.0.290, three.js 0.169, flat
@@ -24,6 +25,17 @@ Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` 
   `fxFlame` (glow card), `fxTally`, `fxBulldog`, `fxMeat`, `fxZzz`, `fxHalfWord`.
 - `cast.ts`: 14 shots; `onGround()` stands an animal card on the island; `sleepers` = the cat pile around a sleeper.
 
+## The Siffre set (src/videos/siffre/, copied from selkirk)
+- `story.ts`: rooms `hq` (the surface team's pine hut), `homeN`, `cave`. The cave is a dome (radius `CR`, height `CH`) with a
+  hole under a vertical shaft (`HOLE`, up to `SHAFT_TOP`); the rope ladder hangs at `LADDER_X`; camp `TABLE` (lantern + field
+  phone cards) and `TENT`. `C(x, y, z)` = cave point. The exterior (alpine meadow, peaks, the pit at `MOUTH`) is at the origin.
+  Shot 12b repeats one camera move three times (`SAME`) with the cast timed from each repeat's start, so they match exactly.
+- `build.ts`: `buildCave` (shell + shaft do not cast shadows, so the key light reaches the camp), `buildAlps`, the `hq` room.
+- `lights.ts`: the golden preset is retuned as warm lamplight with deep blue shade (cave shots); day fog 90-1500 m for the peaks.
+- `toon.ts`: hats `"helmet"` (caver's helmet + lamp) and `"party"`; `fxFieldPhone`, `fxHandset`, `fxStopwatch`, `fxDate`,
+  `fxLantern`, `fxBottle`. No sun disc, no white flash (see Pitfalls).
+- Take: 63.2 s as delivered (no pauses added); words pinned via `voice/anchors.json`; captions merge 1962 and 2000.
+
 ## Voice, captions, sound (production-selkirk/)
 - Take: ElevenLabs "Mark" s50 (fast) ran 55.2 s; four beat pauses were inserted (after the hook +0.45 s, after "He was also
   alone" +0.6, before the Jenny turn +0.75, after "silence" +0.45) -> `voice/voice.wav` 57.4 s.
@@ -39,6 +51,7 @@ git clone https://github.com/PineappleForest/apple && cd apple     # first time;
 ./render.sh preview                                  # 720x1280 quick check -> out/selkirk_preview.mp4
 ./render.sh final --props='{"logo":true}'            # 1440x2560 -> out/selkirk_final.mp4
 ./render.sh remux                                    # new mix.wav only, no re-render
+COMP=SiffreShort ./render.sh preview                 # the Siffre short (same modes)
 ```
 Still checks in the workspace: `REMOTION_TMP=/home/claude/rtmp COMP=SelkirkShort PROPS='{"post":{"dpr":0.5}}' node scripts/stills.mjs out/x_ 60,400 0.5`
 
