@@ -2,6 +2,7 @@
 # One-command render of the Feeloy shorts on a GPU box (RunPod etc.).
 #   COMP=SelkirkShort (default) -> out/selkirk_final.mp4 ("No Goats Required", Alexander Selkirk, the real Robinson Crusoe)
 #   COMP=SiffreShort            -> out/siffre_final.mp4  ("Three Days Late", Michel Siffre alone in a cave, 1962)
+#   COMP=HermitShort            -> out/hermit_final.mp4  ("Lonely for Hire", Georgian ornamental hermits)
 #   ./render.sh            -> out/selkirk_final.mp4  (1440x2560, 30 fps, h264 crf 16, soundtrack muxed)
 #   ./render.sh final --props='{"logo":true}'   extra options after the mode go to the renderer
 #                             (logo: put your logo at public/eliza/logo.png; captions:false = no subtitles)
@@ -16,7 +17,8 @@ COMP="${COMP:-SelkirkShort}"
 case "$COMP" in
   SelkirkShort) MIX=production-selkirk/audio/mix.wav; VID=out/selkirk_video.mp4; FIN=out/selkirk_final.mp4; PRE=out/selkirk_preview.mp4 ;;
   SiffreShort) MIX=production-siffre/audio/mix.wav; VID=out/siffre_video.mp4; FIN=out/siffre_final.mp4; PRE=out/siffre_preview.mp4 ;;
-  *) echo "unknown COMP=$COMP (SelkirkShort | SiffreShort)"; exit 1 ;;
+  HermitShort) MIX=production-hermit/audio/mix.wav; VID=out/hermit_video.mp4; FIN=out/hermit_final.mp4; PRE=out/hermit_preview.mp4 ;;
+  *) echo "unknown COMP=$COMP (SelkirkShort | SiffreShort | HermitShort)"; exit 1 ;;
 esac
 case "$MODE" in final|preview|remux) shift || true ;; *) MODE=final ;; esac
 EXTRA=("$@")
