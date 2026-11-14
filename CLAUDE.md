@@ -2,8 +2,8 @@
 
 This repo holds the Feeloy shorts **"No Goats Required"** (Alexander Selkirk, the real Robinson Crusoe, 1704-1709) and
 **"Three Days Late"** (Michel Siffre, two months alone in a cave without clocks, 1962) and **"Lonely for Hire"** (Georgian
-ornamental hermits, Painshill + Hawkstone) and **"Dash Comes First"** (Queen Victoria's spaniel, coronation day 1838), all
-ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
+ornamental hermits, Painshill + Hawkstone) and **"Dash Comes First"** (Queen Victoria's spaniel, coronation day 1838) and **"Asking for Company"** (Helen Morrison's
+1727 lonely-hearts ad, a 24 s short), all ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
 session): **push only to `PineappleForest/apple`**; read `eliza` for reference code, never push to it.
 
 ## What exists
@@ -13,6 +13,7 @@ session): **push only to `PineappleForest/apple`**; read `eliza` for reference c
 | `SiffreShort` | Siffre in an ice cave, no clocks: thought it was Aug 20 on Sep 14; welcomed 2000 three days late: 65 s | `src/videos/siffre/` | `production-siffre/` | `out/siffre_final.mp4` |
 | `HermitShort` | Hired hermits: Painshill's quit for the pub after 3 weeks; Hawkstone's got a pub + a dummy; today, gnomes: 60.7 s | `src/videos/hermit/` | `production-hermit/` | `out/hermit_final.mp4` |
 | `DashShort` | Victoria's lonely childhood + Dash; crowned in 1838, then ran home to bath him; his gravestone: 64 s | `src/videos/dash/` | `production-dash/` | `out/dash_final.mp4` |
+| `AdShort` | Helen Morrison's 1727 ad for a husband; the mayor locks her in an asylum for a month; today, an app: 24 s | `src/videos/ad/` | `production-ad/` | `out/ad_final.mp4` |
 
 1080x1920 at 30 fps, registered in `src/Root.tsx`; the final render is 1440x2560 (`--scale 1.3333`).
 Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` (Remotion 4.0.290, three.js 0.169, flat
@@ -57,6 +58,14 @@ Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` 
   `fxGifts`, `fxBathtub`, `fxRingStuck`, `fxBook` (two pages at once), `fxGrave`. Victoria is a generic cartoon queen.
 - Take: 62.0 s as delivered; captions merge "1838". Mix limiter ceiling -2.7 dB (true peak came out -0.8 at -1.9).
 
+## The Ad set (src/videos/ad/, copied from dash; the short format, 20-30 s)
+- `story.ts`: TOTAL 720, CARD_AT 584. Outdoors: a Georgian street (cobbles |x| < 4.6, flags, `house()` rows at x = +-10.2,
+  church tower at z -287), Helen walks toward the lens (`walkZ`). Rooms `kens` (her parlour), `office` (the mayor's desk `DESK`),
+  `cell` (cot `COT`, iron bars across at `BARS_Z`; the lenses look through the gaps), `homeN`. No sea (wm not added).
+- `toon.ts`: `fxGazette` (the 1727 page with the "LADY SEEKS HUSBAND" ad). Inserts sit at the lens (`insert()` in cast.ts);
+  the lens focuses on the camera's look point, so an insert shot must look ~0.5 m ahead (S2a) or the card blurs.
+- Take: 21.4 s as delivered; captions merge "1727". The story is thinly sourced, so the script says "So the story goes".
+
 ## Voice, captions, sound (production-selkirk/)
 - Take: ElevenLabs "Mark" s50 (fast) ran 55.2 s; four beat pauses were inserted (after the hook +0.45 s, after "He was also
   alone" +0.6, before the Jenny turn +0.75, after "silence" +0.45) -> `voice/voice.wav` 57.4 s.
@@ -75,6 +84,7 @@ git clone https://github.com/PineappleForest/apple && cd apple     # first time;
 COMP=SiffreShort ./render.sh preview                 # the Siffre short (same modes)
 COMP=HermitShort ./render.sh preview                 # the Hermit short (same modes)
 COMP=DashShort ./render.sh preview                   # the Dash short (same modes)
+COMP=AdShort ./render.sh preview                     # the Ad short (same modes)
 ```
 Still checks in the workspace: `REMOTION_TMP=/home/claude/rtmp COMP=SelkirkShort PROPS='{"post":{"dpr":0.5}}' node scripts/stills.mjs out/x_ 60,400 0.5`
 
