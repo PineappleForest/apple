@@ -20,7 +20,7 @@ for p in P:
     disp = []
     for w in ws:
         t = w["w"] if w["w"] == "M.I.T." else w["w"].rstrip(".")
-        if t == "sixty-six" and disp and disp[-1]["t"] == "nineteen": disp[-1] = {"t": "1966", "s": disp[-1]["s"], "e": w["e"]}; continue
+        if t == "four" and len(disp) >= 2 and disp[-1]["t"] == "oh" and disp[-2]["t"] == "seventeen": disp[-2:] = [{"t": "1704", "s": disp[-2]["s"], "e": w["e"]}]; continue
         disp.append({"t": t, "s": w["s"], "e": w["e"]})
     pages += split(disp)
 out = [{"s": pg[0]["s"], "e": pg[-1]["e"], "w": [[d["t"], d["s"], d["e"]] for d in pg]} for pg in pages]
