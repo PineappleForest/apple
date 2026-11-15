@@ -3,7 +3,8 @@
 This repo holds the Feeloy shorts **"No Goats Required"** (Alexander Selkirk, the real Robinson Crusoe, 1704-1709) and
 **"Three Days Late"** (Michel Siffre, two months alone in a cave without clocks, 1962) and **"Lonely for Hire"** (Georgian
 ornamental hermits, Painshill + Hawkstone) and **"Dash Comes First"** (Queen Victoria's spaniel, coronation day 1838) and **"Asking for Company"** (Helen Morrison's
-1727 lonely-hearts ad, a 24 s short), all ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
+1727 lonely-hearts ad, a 24 s short) and **"Worth the Wait"** (Frederick the Great, buried beside his greyhounds 205 years
+late), all ending on Feeloy. It was split out of `PineappleForest/eliza` (which holds the ten earlier shorts and is worked on by another
 session): **push only to `PineappleForest/apple`**; read `eliza` for reference code, never push to it.
 
 ## What exists
@@ -14,6 +15,7 @@ session): **push only to `PineappleForest/apple`**; read `eliza` for reference c
 | `HermitShort` | Hired hermits: Painshill's quit for the pub after 3 weeks; Hawkstone's got a pub + a dummy; today, gnomes: 60.7 s | `src/videos/hermit/` | `production-hermit/` | `out/hermit_final.mp4` |
 | `DashShort` | Victoria's lonely childhood + Dash; crowned in 1838, then ran home to bath him; his gravestone: 64 s | `src/videos/dash/` | `production-dash/` | `out/dash_final.mp4` |
 | `AdShort` | Helen Morrison's 1727 ad for a husband; the mayor locks her in an asylum for a month; today, an app: 24 s | `src/videos/ad/` | `production-ad/` | `out/ad_final.mp4` |
+| `DogsShort` | Frederick the Great wanted to lie by his greyhounds; church, mine, church, castle; 1991; potatoes: 36.7 s | `src/videos/dogs/` | `production-dogs/` | `out/dogs_final.mp4` |
 
 1080x1920 at 30 fps, registered in `src/Root.tsx`; the final render is 1440x2560 (`--scale 1.3333`).
 Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` (Remotion 4.0.290, three.js 0.169, flat
@@ -66,6 +68,15 @@ Stack, post chain, file roles and pitfalls are the same as in `eliza/CLAUDE.md` 
   the lens focuses on the camera's look point, so an insert shot must look ~0.5 m ahead (S2a) or the card blurs.
 - Take: 21.4 s as delivered; captions merge "1727". The story is thinly sourced, so the script says "So the story goes".
 
+## The Dogs set (src/videos/dogs/, copied from ad)
+- `story.ts`: TOTAL 1100, CARD_AT 944. Sanssouci at the origin: the top terrace at D0 (z < 4), four 2.2 m vineyard steps
+  down toward +z (vine walls, central stairs), the yellow palace with its dome at `PALACE_Z`, the dogs' slabs from
+  `DOGS_GRAVES`, the king's plot `KING_PLOT` (his slab is a flat card, `slabFlat`, shown only from 1991). Rooms: `abbey`
+  (used as the Potsdam church; the throne reads as the altar), `homeN`.
+- `toon.ts`: `fxGreyhound` (stand/sit/run, halo), `fxCoffin`, `fxRoute` (the parchment map: church -> mine -> church ->
+  castle, the coffin hops), `fxPotato`, `fxKingSlab`. Score: baroque flute (he played it) + harpsichord plucks.
+- Take: 33.3 s as delivered; captions merge "1991" and "205".
+
 ## Voice, captions, sound (production-selkirk/)
 - Take: ElevenLabs "Mark" s50 (fast) ran 55.2 s; four beat pauses were inserted (after the hook +0.45 s, after "He was also
   alone" +0.6, before the Jenny turn +0.75, after "silence" +0.45) -> `voice/voice.wav` 57.4 s.
@@ -85,6 +96,7 @@ COMP=SiffreShort ./render.sh preview                 # the Siffre short (same mo
 COMP=HermitShort ./render.sh preview                 # the Hermit short (same modes)
 COMP=DashShort ./render.sh preview                   # the Dash short (same modes)
 COMP=AdShort ./render.sh preview                     # the Ad short (same modes)
+COMP=DogsShort ./render.sh preview                   # the Dogs short (same modes)
 ```
 Still checks in the workspace: `REMOTION_TMP=/home/claude/rtmp COMP=SelkirkShort PROPS='{"post":{"dpr":0.5}}' node scripts/stills.mjs out/x_ 60,400 0.5`
 

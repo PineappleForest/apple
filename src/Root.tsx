@@ -5,6 +5,7 @@ import { SiffreShort, SIFFRE_FRAMES } from "./videos/siffre/Siffre";
 import { HermitShort, HERMIT_FRAMES } from "./videos/hermit/Hermit";
 import { DashShort, DASH_FRAMES } from "./videos/dash/Dash";
 import { AdShort, AD_FRAMES } from "./videos/ad/Ad";
+import { DogsShort, DOGS_FRAMES } from "./videos/dogs/Dogs";
 
 export const Root: React.FC = () => (
   <>
@@ -13,5 +14,6 @@ export const Root: React.FC = () => (
     <Composition id="HermitShort" component={HermitShort} durationInFrames={HERMIT_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="DashShort" component={DashShort} durationInFrames={DASH_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="AdShort" component={AdShort} durationInFrames={AD_FRAMES} fps={30} width={1080} height={1920} />
+    <Composition id="DogsShort" component={DogsShort} durationInFrames={DOGS_FRAMES} fps={30} width={1080} height={1920} />
   </>
 );
