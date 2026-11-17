@@ -23,7 +23,8 @@ case "$COMP" in
   DashShort) MIX=production-dash/audio/mix.wav; VID=out/dash_video.mp4; FIN=out/dash_final.mp4; PRE=out/dash_preview.mp4 ;;
   AdShort) MIX=production-ad/audio/mix.wav; VID=out/ad_video.mp4; FIN=out/ad_final.mp4; PRE=out/ad_preview.mp4 ;;
   DogsShort) MIX=production-dogs/audio/mix.wav; VID=out/dogs_video.mp4; FIN=out/dogs_final.mp4; PRE=out/dogs_preview.mp4 ;;
-  *) echo "unknown COMP=$COMP (SelkirkShort | SiffreShort | HermitShort | DashShort | AdShort | DogsShort)"; exit 1 ;;
+  VoyagerShort) MIX=production-voyager/audio/mix.wav; VID=out/voyager_video.mp4; FIN=out/voyager_final.mp4; PRE=out/voyager_preview.mp4 ;;
+  *) echo "unknown COMP=$COMP (SelkirkShort | SiffreShort | HermitShort | DashShort | AdShort | DogsShort | VoyagerShort)"; exit 1 ;;
 esac
 case "$MODE" in final|preview|remux) shift || true ;; *) MODE=final ;; esac
 EXTRA=("$@")
